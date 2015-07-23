@@ -1,13 +1,14 @@
 require File.expand_path(File.dirname(__FILE__)) + '/lib/sensu-plugin'
 
 Gem::Specification.new do |s|
-  s.name          = 'sensu-plugin'
+  s.name          = 'sensu-plugin-sensu-check'
   s.version       = Sensu::Plugin::VERSION
   s.platform      = Gem::Platform::RUBY
-  s.authors       = ['Decklin Foster', 'Sean Porter']
-  s.email         = ['decklin@red-bean.com', 'portertech@gmail.com']
-  s.homepage      = 'https://github.com/sonian/sensu-plugin'
-  s.summary       = 'Sensu Plugins'
+  s.authors       = ['Justin McCarty']
+  s.email         = ['jmccarty3@gmail.com']
+  s.executables   = Dir.glob('bin/**/*').map { |file| File.basename(file) }
+  s.homepage      = 'https://github.com/jmccarty3/sensu-plugin-sensu-check'
+  s.summary       = 'Sensu Plugins for client sensu health checl'
   s.description   = 'Plugins and helper libraries for Sensu, a monitoring framework'
   s.license       = 'MIT'
   s.has_rdoc      = false
