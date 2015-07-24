@@ -16,8 +16,12 @@ Gem::Specification.new do |s|
   s.files         = Dir['lib/**/*.rb']
   s.test_files    = Dir['test/*.rb']
 
-  s.add_dependency('json')
+
   s.add_dependency('mixlib-cli', '>= 1.1.0')
+
+  s.add_runtime_dependency 'sensu-plugin',      '1.2.0'
+  s.add_runtime_dependency 'aws-sdk',           '~> 2.1.7'
+  s.add_runtime_dependency('json')
 
   s.add_development_dependency('rake')
   s.add_development_dependency('minitest')

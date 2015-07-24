@@ -8,6 +8,8 @@ Verifies that running instances in AWS matching a given filter exists as a sensu
 Instances must be running for a given minimum time (in minutes).
 Users may provide warning and critical thresholds for uptime (in minutes).
 
+Currently has a copy of the filter logic in jmccarty3/sensu-plugins-aws
+
 Files
 ---------------------
 * bin/check-sensu-client.rb

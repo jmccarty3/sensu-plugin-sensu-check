@@ -30,8 +30,10 @@ require 'sensu-plugin/check/cli'
 require 'aws-sdk'
 require 'net/http'
 require 'json'
+require 'sensu-plugins-sensu-check/filter'
 
 class EC2Filter < Sensu::Plugin::Check::CLI
+  include Filter
   option :aws_access_key,
          short: '-a AWS_ACCESS_KEY',
          long: '--aws-access-key AWS_ACCESS_KEY',
@@ -77,6 +79,12 @@ class EC2Filter < Sensu::Plugin::Check::CLI
          proc: proc(&:to_i),
          default: 5
 
+  option :filter,
+         short: '-f FILTER',
+         description: 'Filter to use to find ec2 instances',
+         default: '{}'
+
+
   def aws_config
     hash = {}
     hash.update access_key_id: config[:access_key_id], secret_access_key: config[:secret_access_key] if config[:access_key_id] && config[:secret_access_key]
@@ -85,14 +93,19 @@ class EC2Filter < Sensu::Plugin::Check::CLI
   end
 
   def run
-      tags=["infrastructure"]
+
 
       client = Aws::EC2::Client.new aws_config
 
-      data = client.describe_instances({filters:[
-        {name:"instance-state-name", values:["running"]},
-        {name:"tag-value", values: tags}
-        ]})
+      parsed_filter = parse(config[:filter])
+
+      unless parsed_filter.empty?
+        filter = {filters: Filter.parse(config[:filter])}
+      else
+        filter ={}
+      end
+
+      data = client.describe_instances(filter)
 
       currentTime = Time.now.utc
       aws_instances = Set.new
